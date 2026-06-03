@@ -58,41 +58,10 @@ paneldor
 ./.venv/bin/python main.py
 ```
 
-# How to run with Windows
-1. Install Git and Python 3.10+ (add Python to PATH)
-2. Clone this repo
-```powershell
-git clone https://github.com/dalifajr/xl-cli
-```
-3. Open the folder
-```powershell
-cd me-cli-sunset
-```
-4. Setup (PowerShell)
-```powershell
-powershell -ExecutionPolicy Bypass -File .\setup.ps1
-```
-5. Open Windows panel
-```powershell
-paneldor
-```
-6. Run the script manually (optional)
-```powershell
-.\.venv\Scripts\python.exe .\main.py
-```
-
 # Setup script note
 `setup.sh` auto-detects your platform:
 - Uses `pkg` on Termux.
 - Uses `apt-get` on Ubuntu/Debian.
-
-For Windows, use `setup.ps1`.
-
-Windows note:
-- If you only have Python 3.14, some native packages may try to compile from source.
-- This repo uses `brotlicffi` to avoid manual C++ Build Tools setup for Brotli support.
-- `paneldor` can start bot/CLI as background process so it keeps running after terminal is closed.
-- `paneldor` includes auto-update task option (Task Scheduler) and auto-start bot option.
 
 # Telegram bot integration (button-first)
 You can run the full CLI flow from Telegram using buttons and symbols.
@@ -113,11 +82,6 @@ python3 telegram_main.py
 4. Restrict bot access with `user_allow.txt`
 - Add allowed Telegram user ids (one id per line).
 - Users not listed in `user_allow.txt` will be denied.
-
-On Windows:
-```powershell
-.\.venv\Scripts\python.exe .\telegram_main.py
-```
 
 How it works:
 - Use `/start` once to show the keyboard.

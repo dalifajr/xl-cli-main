@@ -85,6 +85,82 @@ status_all() {
   fi
 }
 
+setup_bot_token() {
+  ensure_venv_python
+  if [[ ! -f "$ROOT_DIR/.env" ]]; then
+    if [[ -f "$ROOT_DIR/.env.template" ]]; then
+      cp "$ROOT_DIR/.env.template" "$ROOT_DIR/.env"
+      echo "Membuat file .env baru dari .env.template..."
+    else
+      touch "$ROOT_DIR/.env"
+    fi
+  fi
+
+  read -rp "Masukkan Telegram Bot Token baru: " new_token
+  if [[ -z "$new_token" ]]; then
+    echo "Token tidak boleh kosong."
+    return
+  fi
+
+  "$VENV_PY" -c "
+import os
+env_file = '$ROOT_DIR/.env'
+lines = []
+updated = False
+if os.path.exists(env_file):
+    with open(env_file, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+for i, line in enumerate(lines):
+    if line.strip().startswith('TELEGRAM_BOT_TOKEN='):
+        lines[i] = f'TELEGRAM_BOT_TOKEN=\"{new_token}\"\n'
+        updated = True
+        break
+if not updated:
+    lines.append(f'TELEGRAM_BOT_TOKEN=\"{new_token}\"\n')
+with open(env_file, 'w', encoding='utf-8') as f:
+    f.writelines(lines)
+"
+  echo "Token bot berhasil disimpan ke .env!"
+}
+
+update_panel() {
+  echo "Memeriksa pembaruan pada remote repository..."
+  if ! command -v git &> /dev/null; then
+    echo "Error: git tidak terinstall atau tidak ditemukan di PATH."
+    return
+  fi
+
+  if ! git rev-parse --is-inside-work-tree &> /dev/null; then
+    echo "Error: Repositori ini bukan repositori git aktif."
+    return
+  fi
+
+  git fetch
+  local_commit=$(git rev-parse HEAD)
+  remote_commit=$(git rev-parse @{u} 2>/dev/null || echo "")
+
+  if [[ -z "$remote_commit" ]]; then
+    echo "Error: Tidak dapat melacak upstream branch (remote). Pastikan upstream terkonfigurasi."
+    return
+  fi
+
+  if [[ "$local_commit" == "$remote_commit" ]]; then
+    echo "Panel sudah menggunakan versi terbaru (Up-to-date)."
+  else
+    echo "⚠️ Versi baru tersedia!"
+    echo "Local  Commit: ${local_commit:0:7}"
+    echo "Remote Commit: ${remote_commit:0:7}"
+    read -rp "Apakah Anda ingin melakukan update (git pull --rebase)? (y/n): " confirm
+    if [[ "$confirm" =~ ^[Yy]$ ]]; then
+      echo "Melakukan update..."
+      git pull --rebase
+      echo "Update selesai."
+    else
+      echo "Update dibatalkan."
+    fi
+  fi
+}
+
 show_menu() {
   clear
   echo "==============================="
@@ -98,6 +174,8 @@ show_menu() {
   echo "6) Tail Bot Log"
   echo "7) Tail CLI Log"
   echo "8) Update Dependencies"
+  echo "9) Setup Bot Token"
+  echo "10) Update Panel"
   echo "0) Exit"
   echo "-------------------------------"
 }
@@ -118,6 +196,8 @@ while true; do
       "$VENV_PY" -m pip install --upgrade pip
       "$VENV_PY" -m pip install -r "$ROOT_DIR/requirements.txt"
       ;;
+    9) setup_bot_token ;;
+    10) update_panel ;;
     0) exit 0 ;;
     *) echo "Pilihan tidak valid." ;;
   esac

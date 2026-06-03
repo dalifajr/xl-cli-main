@@ -89,7 +89,10 @@ Aplikasi ini kaya akan fitur-fitur manajemen kartu XL:
   * Validasi nomor MSISDN tujuan.
   * Bookmark paket untuk menyimpan kode paket favorit agar mudah diakses di kemudian hari.
   * Pembatasan akses bot Telegram menggunakan file whitelist `user_allow.txt`.
-  * Fitur auto-update otomatis melalui integrasi Git.
+  * **Panel Kontrol (paneldor):**
+    * Manajemen service Telegram Bot dan CLI (start/stop/status/logs).
+    * Setup token bot Telegram langsung dari menu interaktif (menyimpan otomatis ke `.env`).
+    * Pemeriksaan pembaruan git remote (`git fetch`) dan opsi update otomatis (`git pull --rebase`).
 
 ---
 
@@ -97,7 +100,7 @@ Aplikasi ini kaya akan fitur-fitur manajemen kartu XL:
 
 * **Otomatisasi & Efisiensi:** Memungkinkan pembelian paket secara massal/berulang yang tidak bisa dilakukan lewat aplikasi resmi MyXL.
 * **Bypass Proteksi (Decoy):** Adanya fitur bypass limit pembayaran total memungkinkan aktivasi paket-paket promo khusus.
-* **Dukungan Lintas Platform:** Dapat berjalan langsung di CLI (Termux, Linux, Windows) maupun didelegasikan ke Telegram Bot sebagai kontrol panel jarak jauh.
+* **Dukungan Lintas Platform:** Dapat berjalan langsung di CLI (Termux, Linux) maupun didelegasikan ke Telegram Bot sebagai kontrol panel jarak jauh.
 * **Antarmuka Telegram yang Interaktif:** Telegram bot didukung dengan sistem tombol inline (*button-driven*), navigasi halaman (*pagination*), dan panel status yang menyerupai aplikasi GUI.
 * **Keamanan Akses Bot:** Dilengkapi whitelist ID Telegram (`user_allow.txt`) agar bot tidak bisa disalahgunakan oleh orang lain jika dideploy secara publik.
 
@@ -141,8 +144,6 @@ CIRCLE_MSISDN_KEY="key_circle_msisdn_here"
 1. **Instalasi Dependensi:**
    ```bash
    bash setup.sh
-   # atau untuk Windows (PowerShell):
-   .\setup.ps1
    ```
 2. **Menjalankan CLI:**
    ```bash
