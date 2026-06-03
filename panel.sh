@@ -102,9 +102,10 @@ setup_bot_token() {
     return
   fi
 
-  "$VENV_PY" -c "
+  NEW_BOT_TOKEN="$new_token" "$VENV_PY" -c "
 import os
 env_file = '$ROOT_DIR/.env'
+token = os.getenv('NEW_BOT_TOKEN', '')
 lines = []
 updated = False
 if os.path.exists(env_file):
@@ -112,11 +113,11 @@ if os.path.exists(env_file):
         lines = f.readlines()
 for i, line in enumerate(lines):
     if line.strip().startswith('TELEGRAM_BOT_TOKEN='):
-        lines[i] = f'TELEGRAM_BOT_TOKEN=\"{new_token}\"\n'
+        lines[i] = f'TELEGRAM_BOT_TOKEN=\"{token}\"\n'
         updated = True
         break
 if not updated:
-    lines.append(f'TELEGRAM_BOT_TOKEN=\"{new_token}\"\n')
+    lines.append(f'TELEGRAM_BOT_TOKEN=\"{token}\"\n')
 with open(env_file, 'w', encoding='utf-8') as f:
     f.writelines(lines)
 "
