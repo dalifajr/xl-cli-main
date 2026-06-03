@@ -9,6 +9,12 @@ Go to [OUR TELEGRAM CHANNEL](https://t.me/alyxcli)
 Copy the provided environment variables and paste it into a text file named `.env` in the same directory as `main.py`.
 You can use nano or any text editor to create the file.
 
+# Quick Start (One-Line Setup)
+Run this single command to clone and set up the program automatically (ensure `git` is installed):
+```bash
+git clone https://github.com/dalifajr/xl-cli-main.git && cd xl-cli-main && bash setup.sh
+```
+
 # How to run with TERMUX
 1. Install Git
 ```
@@ -20,7 +26,7 @@ git clone https://github.com/dalifajr/xl-cli-main
 ```
 3. Open the folder
 ```
-cd me-cli-sunset
+cd xl-cli-main
 ```
 4. Setup
 ```
@@ -43,7 +49,7 @@ git clone https://github.com/dalifajr/xl-cli-main
 ```
 3. Open the folder
 ```bash
-cd me-cli-sunset
+cd xl-cli-main
 ```
 4. Setup
 ```bash
