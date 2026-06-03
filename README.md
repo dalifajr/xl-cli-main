@@ -16,7 +16,7 @@ pkg install git -y
 ```
 2. Clone this repo
 ```
-git clone https://github.com/dalifajr/xl-cli
+git clone https://github.com/dalifajr/xl-cli-main
 ```
 3. Open the folder
 ```
@@ -39,7 +39,7 @@ sudo apt install -y git
 ```
 2. Clone this repo
 ```bash
-git clone https://github.com/dalifajr/xl-cli
+git clone https://github.com/dalifajr/xl-cli-main
 ```
 3. Open the folder
 ```bash
